@@ -35,4 +35,15 @@ self.addEventListener('activate', function(evt) {
             }))
         })
     )
-})
+});
+
+self.addEventListener('fetch', evt => {
+    evt.respondWith(
+        caches.match(evt.request).then(request => {
+            if (request) {
+                console.log('responding with cache: ' + evt.request.url);
+                return fetch(evt.request)
+            }
+        })
+    )
+});
